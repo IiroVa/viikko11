@@ -12,6 +12,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class AddGroceryActivity extends AppCompatActivity {
 
     private EditText editName, editNote;
@@ -34,7 +37,8 @@ public class AddGroceryActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    ListGrocery.getInstance().addGrocery(new Grocery(editName.getText().toString(), editNote.getText().toString()));
+
+                    ListGrocery.getInstance().addGrocery(new Grocery(editName.getText().toString(), editNote.getText().toString(), new Date()));
                     Intent intent = new Intent(AddGroceryActivity.this, MainActivity.class);
                     startActivity(intent);
 

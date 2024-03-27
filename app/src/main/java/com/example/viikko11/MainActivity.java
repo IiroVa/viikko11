@@ -16,11 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity {
     private Context context;
 
     private Button addGrocery;
+    private ImageButton imageTime, imageAlphabet;
 
     private RecyclerView rvGroceries;
 
@@ -34,9 +37,52 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             addGrocery = findViewById(R.id.buttonAddNewGrocery);
             rvGroceries = findViewById(R.id.rvGroceries);
+            imageTime = findViewById(R.id.imageTime);
+            imageAlphabet = findViewById(R.id.imageAlphabet);
             rvGroceries.setLayoutManager(new LinearLayoutManager(this));
             ArrayList<Grocery> groceries = new ArrayList<>();
             groceries = ListGrocery.getInstance().getGroceries();
+            ArrayList<Grocery> finalGroceries = groceries;
+            imageAlphabet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Collections.sort(finalGroceries,
+                            new Comparator<Grocery>() {
+                                @Override
+                                public int compare(Grocery o1, Grocery o2) {
+                                    return o1.getName().compareToIgnoreCase(o2.getName());
+                                }
+                            });
+                    rvGroceries.setAdapter(new GroceryListAdapter(getApplicationContext(), finalGroceries));
+
+                }
+
+            });
+
+            imageTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Collections.sort(finalGroceries, new Comparator<Grocery>() {
+                        @Override
+                        public int compare(Grocery o1, Grocery o2) {
+                            long one = o1.getTimeStamp().getTime();
+                            long two = o2.getTimeStamp().getTime();
+                            if(one > two){
+                                return 1;
+                            } else if (one < two){
+                                return -1;
+
+                            } else{
+                            return 0;
+                            }
+
+                        }
+                    });
+                    rvGroceries.setAdapter(new GroceryListAdapter(getApplicationContext(), finalGroceries));
+
+                }
+            });
+
             rvGroceries.setAdapter(new GroceryListAdapter(getApplicationContext(), groceries));
 
             addGrocery.setOnClickListener(new View.OnClickListener() {
