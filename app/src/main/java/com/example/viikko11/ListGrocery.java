@@ -23,11 +23,38 @@ public class ListGrocery {
         groceries.add(grocery);
         return;
     }
-    public void getGroceryByName(String name) {
+    public Grocery getGroceryByName(String name) {
+        int i = 0;
+       for (Grocery grc : groceries) {
+
+            if(grc.getName().equals(name)){
+                break;
+
+            }
+            i++;
+
+        }
+
+       return(groceries.get(i));
+
+
 
     }
 
     public void removeGrocery(String name){
+
+        int i = 0;
+        for (Grocery grc : groceries) {
+
+            if(grc.getName().equals(name)){
+                break;
+
+            }
+            i++;
+
+        }
+        groceries.remove(i);
+        return;
 
     }
 
